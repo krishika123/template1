@@ -1,0 +1,9 @@
+.postrows{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.postcolumns{
+    display: flex;
+    flex-direction: columns;
+}
