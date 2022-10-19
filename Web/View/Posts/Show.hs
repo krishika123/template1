@@ -12,13 +12,36 @@ instance View ShowView where
                 <li class="breadcrumb-item active">Show Post</li>
             </ol>
         </nav>
-        
-        <h1>{post.title}</h1>
-        <p> {post.createdAt |> date} ({post.createdAt |>timeAgo})</p>
-        <div> {post.body |> renderMarkdown} </div>
-        <div> {forEach post.comments renderComment} </div>
 
-        <a href={NewCommentAction post.id}>Add Comment</a>
+        <div class="post-border">
+            <div class="postrows">
+                <div>
+                    <h1>{post.title}</h1>
+                </div>
+                <div>
+                    <p> {post.createdAt |> date} ({post.createdAt |>timeAgo})</p>
+                </div>
+            </div>
+            <div> {post.body |> renderMarkdown} </div>
+            <div class="post-ratings">
+                <div> 
+                    {post.likes}
+                    <button> <img src="/thumbsUp.png" width="20px" height="20px"> </button>
+                </div>
+                <div>
+                    {post.dislikes}
+                    <button> <img src="/thumbsDown.png" width="20px" height="20px"> </button>
+                </div>
+            </div>
+        </div>
+        <div class="postComments-border">
+            <div>
+            <h1>Comments</h1>
+            </div>
+            <div> {forEach post.comments renderComment} </div>
+            <a href={NewCommentAction post.id}>Add Comment</a>
+        </div>
+
     |]
         where
             breadcrumb = renderBreadcrumb
@@ -31,13 +54,13 @@ renderMarkdown text =
         Left error -> "Something went wrong"
         Right markdown -> MMark.render markdown |> tshow |> preEscapedToHtml
 renderComment comment = [hsx|
-        <div class="mt-4">
+        <div class="no-spacing">
             <div class="postrows">
                 <div>
-                    <h5>{comment.author}</h5>
+                    <h6>{comment.author}</h6>
                 </div>
                 <div>
-                        <p>{comment.createdAt |> timeAgo}</p>
+                    <p>{comment.createdAt |> timeAgo}</p>
                 </div>
             </div>
             <div class="postcolumn">
